@@ -1,35 +1,3 @@
-# Go 本地 JSON HTTP Server 示例
-
-这是一个简洁、可扩展的 Go HTTP 服务器示例。当用户向指定 URL 发出 GET 或 POST 请求时，会调用对应的处理函数并返回 JSON 响应。
-
-默认监听端口: `:8080`
-
-示例路由:
-- `GET /hello?name=alice` -> 返回 {"success": true, "data": {"message": "hello alice"}}
-- `POST /echo` (JSON body) -> 返回接收到的 JSON
-
-运行:
-
-```bash
-go run main.go
-```
-
-示例请求:
-
-GET:
-
-```bash
-curl "http://localhost:8080/hello?name=yin"
-```
-
-POST:
-
-```bash
-curl -X POST -H "Content-Type: application/json" -d '{"foo": "bar"}' http://localhost:8080/echo
-```
-
-可扩展性说明:
-
 ## ReadBTFandGetItsMember (Linux-only) ✅
 
 - 文件: `ReadBTFandGetItsMember.go` (package `main`)
@@ -69,4 +37,59 @@ if err := TranslateJSON(); err != nil {
     log.Fatalf("translate json failed: %v", err)
 }
 ```
+
+
+**Baserun (Linux-only)**
+
+- **File**: [baserun.go](baserun.go)
+- **Package**: `baserun`
+- **Exported function**: `BaseRun()` — performs the same actions as the original `baserun.py`.
+- **Behavior**: ensures `./.cache` exists, removes `FunctionInfo.db` and `PacketInfo.db` if present, recreates `./.cache/btf.json` by running `bpftool -j btf dump file /sys/kernel/btf/vmlinux` and writing the JSON output into it.
+- **Usage**:
+
+```go
+package main
+
+import (
+    "log"
+    "github.com/your/module/baserun" // adjust module path as needed
+)
+
+func main() {
+    if err := baserun.BaseRun(); err != nil {
+        log.Fatalf("baserun failed: %v", err)
+    }
+}
+```
+
+**Notes**:
+
+- This code mirrors the original Python script and is intended for Linux systems where `bpftool` and `/sys/kernel/btf/vmlinux` are available.
+Only `BaseRun` is exported; helper functions are unexported per the refactor request.
+
+````
+
+
+`````
+
+**Makefile**
+
+- 已添加 `Makefile`（项目根目录）。主要目标：
+    - `make build`：构建可执行文件到 `bin/goserverps`。
+    - `make run`：先构建，然后运行 `./bin/goserverps`。
+    - `make run-dev`：使用 `go run main.go` 在开发模式下运行（无需先构建）。
+    - `make clean`：删除 `bin` 目录和 `.cache`（注意：`.cache` 会被删除）。
+    - `make fmt`：格式化源码（`gofmt -w .`）。
+    - `make vet`：运行 `go vet ./...`。
+
+使用示例：
+
+```bash
+make build
+make run
+# 或者（开发时）
+make run-dev
+```
+
+更多编译与运行细节见 [BUILD.md](BUILD.md).
 

@@ -63,7 +63,7 @@ func TranslateJSON() error {
 
 	bpf := kproberHeader + specialPartRcv + specialPartSnd + specialPartListen
 	for _, fi := range funcList {
-		bpf += fmt.Sprintf(kproberBody, fi.name, fi.id, fi.name, fi.id)
+		bpf += fmt.Sprintf(kproberBody, fi.name, fi.name, fi.id, fi.name, fi.name, fi.id)
 	}
 
 	kpath := filepath.Join(".", ".cache", "kProberFunc.c")
@@ -144,7 +144,7 @@ func selectFunctions(mainFile []map[string]interface{}) []funcInfo {
 		if name == "" {
 			continue
 		}
-		if strings.Contains(name, "bpf") || inList(name, disabledList) {
+		if strings.Contains(name, "bpf") || strings.Contains(name, "trace") || inList(name, disabledList) {
 			continue
 		}
 		if inList(name, specList) {

@@ -18,3 +18,12 @@
 
 ### Code 6
 请给出一个Readme文件，名为{Dependency.md}，讲解如何在Ubuntu24.04上安装运行本项目的方法。
+
+### Code 7
+请给出一段代码，它的语言是{go},它完整重构文件夹下{baserun.py}的效果，包装成单个函数，函数对外部暴露，其余函数不对外部暴露。将生成的代码写入baserun.go这个文件，并请在README.md后给出这段代码的说明。
+
+### Code 8
+请给出一段代码，它的语言是{go},它依次运行BaseRun(),ReadBTFandGetItsMember()和TranslateJSON()，分别位于baserun.go,ReadBTFandGetItsMember.go和和translateJSON中,这是项目的主要功能模块。将生成的代码写入main.go这个文件，并请在README.md的最后给出这段代码的说明。
+
+### Code 9
+本项目中的主要函数已经完成，请为这个项目生成一个Makefile文件。并请在README.md的最后给出这段代码的说明。之后，生成一个Readme文件，告诉用户应该如何编译和运行本项目。
